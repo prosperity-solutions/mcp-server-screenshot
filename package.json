@@ -1,6 +1,6 @@
 {
   "name": "@prosperity-solutions/mcp-server-screenshot",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "MCP server for native macOS screenshot capture — screen, window, and region capture via screencapture",
   "type": "module",
   "main": "dist/index.js",
