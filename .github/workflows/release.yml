@@ -13,6 +13,7 @@ permissions:
 jobs:
   release:
     runs-on: macos-latest
+    environment: release
     steps:
       - uses: actions/checkout@v4
         with:
@@ -27,5 +28,4 @@ jobs:
       - name: Release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: npx semantic-release

@@ -9,7 +9,7 @@ import { confirm } from "./confirm.js";
 const require = createRequire(import.meta.url);
 const { version } = require("../package.json") as { version: string };
 
-let confirmationMode = process.env.SCREENSHOT_MCP_CONFIRM !== "0";
+const confirmationMode = process.env.SCREENSHOT_MCP_CONFIRM !== "0";
 
 async function checkConfirmation(description: string): Promise<boolean> {
   if (!confirmationMode) return true;
@@ -193,21 +193,6 @@ server.tool(
     } catch (e: any) {
       return { content: [{ type: "text", text: `Error: ${e.message}` }], isError: true };
     }
-  }
-);
-
-// Tool 6: set_confirmation_mode
-server.tool(
-  "set_confirmation_mode",
-  "Toggle the global confirmation mode. When on, each screenshot shows a native macOS Allow/Deny dialog.",
-  {
-    enabled: z.boolean().describe("Whether confirmation mode should be enabled"),
-  },
-  async ({ enabled }) => {
-    confirmationMode = enabled;
-    return {
-      content: [{ type: "text", text: `Confirmation mode ${enabled ? "enabled" : "disabled"}` }],
-    };
   }
 );
 

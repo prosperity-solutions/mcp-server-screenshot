@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "WebFetch(domain:github.com)",
+      "mcp__screenshot__list_windows",
+      "mcp__screenshot__screenshot_window",
+      "mcp__screenshot__request_screenshot"
+    ]
+  }
+}

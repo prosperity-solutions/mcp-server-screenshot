@@ -5,7 +5,7 @@
 
 Native macOS screenshot capture for AI assistants.
 
-An [MCP](https://modelcontextprotocol.io/) server that gives AI assistants the ability to capture screenshots on macOS using the native `screencapture` command.
+An [MCP](https://modelcontextprotocol.io/) server that provides screenshot capture on macOS using the native `screencapture` command. Works with any MCP-compatible client.
 
 ## Features
 
@@ -14,7 +14,6 @@ An [MCP](https://modelcontextprotocol.io/) server that gives AI assistants the a
 - **screenshot_screen** — Capture an entire display
 - **screenshot_region** — Capture a rectangular region by coordinates
 - **request_screenshot** — Interactive crosshair selector for user-driven capture
-- **set_confirmation_mode** — Toggle native Allow/Deny dialog before each capture
 
 ## Prerequisites
 
@@ -25,9 +24,7 @@ An [MCP](https://modelcontextprotocol.io/) server that gives AI assistants the a
 
 ## Quick Start
 
-### Claude Desktop
-
-Add to your `claude_desktop_config.json`:
+Add to your MCP client configuration:
 
 ```json
 {
@@ -40,12 +37,6 @@ Add to your `claude_desktop_config.json`:
 }
 ```
 
-### Claude Code
-
-```bash
-claude mcp add screenshot -- npx -y @prosperity-solutions/mcp-server-screenshot
-```
-
 ## Tools
 
 | Tool | Description | Key Parameters |
@@ -55,17 +46,16 @@ claude mcp add screenshot -- npx -y @prosperity-solutions/mcp-server-screenshot
 | `screenshot_screen` | Capture a display | `display?` (default: 1), `format?` |
 | `screenshot_region` | Capture a region | `x`, `y`, `width`, `height`, `format?` |
 | `request_screenshot` | Interactive selector | `format?` |
-| `set_confirmation_mode` | Toggle confirmation | `enabled` (boolean) |
 
 All capture tools support `format` (`"png"` or `"jpg"`, default `"png"`).
 
-## Configuration
+## Security & Privacy
 
-| Environment Variable | Default | Description |
-|---------------------|---------|-------------|
-| `SCREENSHOT_MCP_CONFIRM` | `1` | Set to `0` to disable the native confirmation dialog |
+Screenshot capture is a sensitive operation — it can expose passwords, private messages, financial data, or anything else visible on screen. This server is designed with a clear trust boundary: **the user, not the agent, decides what gets shared.**
 
-Example with confirmation disabled:
+By default, every screenshot request triggers a **native macOS confirmation dialog** (Allow / Deny) before any pixels are captured. This dialog is rendered by the operating system, completely outside the agent's context — the agent cannot see it, dismiss it, or influence the outcome. You always know exactly what is being captured before it happens.
+
+If you operate in a trusted environment (e.g., a dedicated machine, a sandboxed workflow, or an automated pipeline where no sensitive content is on screen), you can disable confirmation by setting the `SCREENSHOT_MCP_CONFIRM` environment variable to `0`. This is an environment-level setting, configured at server startup — it is intentionally not exposed as a tool, so an agent can never change it at runtime.
 
 ```json
 {
